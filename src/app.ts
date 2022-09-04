@@ -8,7 +8,6 @@ import cors from "cors";
 const app = express();
 const port = 8000;
 config()
-console.log(process.env)
 // app.get("/", (req, res) => {
 //   res.send("Hello World!");
 // });
@@ -18,6 +17,10 @@ console.log(process.env)
 //     }
 // console.log(results.rows)
 //   })
+  pool.connect((err) => {
+    if (err) {
+      return console.error("Error acquiring client", err.stack);
+    }})
 app.use(cors());
 app.use(express.json());
 app.use(
