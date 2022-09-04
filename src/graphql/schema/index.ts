@@ -2,14 +2,12 @@ import { buildSchema } from "graphql";
 const schema = buildSchema(`
 type User{
     id: ID!
-    name: String!
-    phone: String!
+    first_name: String!
+    last_name: String!
+    role:String!
     email: String!
     password: String!
-    type: String!
-    balance: Int!
-    currency: String!
-    createdAt: String!
+    created_at: String!
 }
 type UserResponse {
     user: User!
@@ -19,10 +17,12 @@ type Query {
     users: [User!]!
 }
 type Mutation {
-    createUser(name:String!,  
+    createUser(first_name:String!, 
+        last_name:String!,  
         phone: String!
         password: String!
-        type: String!
+        role: String!
+
         email: String!):UserResponse
 }
 schema {
