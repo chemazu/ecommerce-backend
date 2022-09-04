@@ -17,13 +17,13 @@ type Query {
     users: [User!]!
 }
 type Mutation {
-    createUser(first_name:String!, 
+        createUser(first_name:String!, 
         last_name:String!,  
         phone: String!
         password: String!
         role: String!
-
         email: String!):UserResponse
+        login( email: String!,      password: String!):UserResponse
 }
 schema {
     query: Query

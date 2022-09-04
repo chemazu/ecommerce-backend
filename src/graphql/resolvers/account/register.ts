@@ -3,7 +3,7 @@ import pool from "../../../db";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-export const createUser = async (args: {
+ const createUser = async (args: {
   first_name: string;
   last_name: string;
   phone: string;
@@ -29,7 +29,6 @@ export const createUser = async (args: {
   const dbUser = await pool.query("SELECT * FROM users WHERE email =$1", [
     email,
   ]);
-  console.log(dbUser.rows);
   if (dbUser.rows.length > 0) {
     throw new Error("User already exists");
   }
@@ -38,7 +37,7 @@ export const createUser = async (args: {
       "INSERT INTO users (first_name,last_name,phone,email,role,created_at,password) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *",
       [first_name, last_name, phone, email, role, created_at, encryptedPassword]
     )
-    .then((res) => {
+    .then((res: { rows: any[]; }) => {
       let token = jwt.sign(
         { email: res.rows[0].email },
         process.env.JWT_SECRET
@@ -48,44 +47,5 @@ export const createUser = async (args: {
     .catch((error) => {
       throw new Error(error);
     });
-  //  pool.query(
-  //   "INSERT INTO users (first_name,last_name,phone,email,role,created_at,password) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *",
-  //   [
-  //     first_name,
-  //     last_name,
-  //     phone,
-  //     email,
-  //     role,
-  //     created_at,
-  //     encryptedPassword,
-  //   ],
-  //   (error, results) => {
-  //     // console.log( results.rows);
-  //     // let token = jwt.sign({ email: results.email }, process.env.JWT_SECRET);
-  //     return {
-  //       user: {
-  //         id: "",
-  //         first_name: "",
-  //         last_name: "",
-  //         role: "",
-  //         email: "",
-  //         password: "",
-  //         created_at: "",
-  //       },
-  //       token: "",
-  //     };
-  //   }
-  // );
-  // pool.connect((err, client, release) => {
-  //   if (err) {
-  //     return console.error("Error acquiring client", err.stack);
-  //   }
-  //   client.query("SELECT * FROM users", (err, result) => {
-  //     release();
-  //     if (err) {
-  //       return console.error("Error executing query", err.stack);
-  //     }
-  //     console.log(result.rows,"sds");
-  //   });
-  // });
 };
+export default createUser
