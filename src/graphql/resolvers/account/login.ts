@@ -13,7 +13,6 @@ const login = async (args: { email: string; password: string }) => {
   }
   let user = userDb.rows[0];
   const isPasswordValid = await bcrypt.compare(password, user.password);
-  console.log(isPasswordValid, user);
   const pass = await bcrypt.compare(password, user.password);
   if (pass && user) {
     const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET);

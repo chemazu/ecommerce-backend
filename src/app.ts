@@ -26,7 +26,7 @@ app.use(express.json());
 app.use(
   "/graphql",
   graphqlHTTP({
-    schema: schema,
+    schema,
     rootValue: root,
     graphiql: true,
   })

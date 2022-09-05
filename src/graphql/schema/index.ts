@@ -13,8 +13,21 @@ type UserResponse {
     user: User!
     token: String
 }
-type Query {
+
+type Product{
+    productid: ID!
+     productname : String! 
+     productsku : String! 
+     productprice : Int 
+     productshortdesc : String! 
+     productlongdesc : String!
+     created_at : String!
+
+   
+   }
+   type Query {
     users: [User!]!
+    products :[Product]
 }
 type Mutation {
         createUser(first_name:String!, 
@@ -24,6 +37,7 @@ type Mutation {
         role: String!
         email: String!):UserResponse
         login( email: String!,      password: String!):UserResponse
+        createProduct( productname : String! ,  productsku : String! , productprice :  Int!, productshortdesc : String! ,productlongdesc : String!) :Product
 }
 schema {
     query: Query
